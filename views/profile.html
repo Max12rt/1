@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MarvelGame</title>
+        <meta name="description" content="lobbyGame" charset="utf-8">
+        <link rel="stylesheet" href="lobby.css">
+        <link rel="icon" type="image/png" href="../public/assets/board2.jpeg">
+    </head>
+    <body>
+        <div class="menu">
+        <img id="avatar" alt="avatar">
+            <nav>
+                <ul>
+                    <li><a href="/">Лоббi</a></li>
+                    <li><a href="/store">Картки</a></li>
+                    <li><a href="/profile">Профiль</a></li>
+                    <li><a href="/rules">Правила</a></li>
+                    <li><a id="logout">Вийти</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class='profile-text'>
+            <p id="login"></p>
+            <p id="name"></p>
+            <p id="email"></p>
+        </div>
+        
+        <script>
+            let request = new XMLHttpRequest()
+
+            request.open('POST', '/', true);
+            request.setRequestHeader( 'Content-Type', 'application/json');
+            request.addEventListener('load', function () {
+                let receivedUser = JSON.parse(request.response);
+
+                if (receivedUser.ans == "YESlogin")
+                    window.location.href = '/login';
+                else {
+                    document.getElementById('login').innerText = `Ваш логін - ${receivedUser.login}`;
+                    document.getElementById('name').innerText = `Ваше ім'я - ${receivedUser.fullName}`;
+                    document.getElementById('email').innerText = `Ваш Email - ${receivedUser.email}`;
+                    let ava = document.getElementById('avatar');
+                    ava.outerHTML = `<img src="./assets/avatars/ava.jpeg" alt="avatar" id="avatar">`;
+                }
+            });
+            
+            request.send();
+            let logoutButton = document.getElementById('logout');
+            logoutButton.addEventListener('click', function (evt) {
+        
+                evt.preventDefault();
+                let request = new XMLHttpRequest()
+                request.open('POST', '/logout', true);
+                request.setRequestHeader( 'Content-Type', 'application/json');
+                request.addEventListener('load', function () {
+                    let receivedUser = JSON.parse(request.response);
+                    if(receivedUser.ans = "logout") {
+                        window.location.href = '/login';
+                    }
+                });
+                request.send();
+
+            });
+        </script>
+        
+    </body>
+</html>
