@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnecting", () => {
-        console.log(`id is ${Array.from(socket.rooms)[1]}`); // the Set contains at least the socket ID
+        console.log(`id is ${Array.from(socket.rooms)[1]}`);
         io.to(Array.from(socket.rooms)[1]).emit('leave');
     });
 

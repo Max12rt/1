@@ -25,9 +25,7 @@ router.get('/password', passwordGet);
 router.get('/style.css', passwordGetStyle);
 router.get('/lobby.css', lobbyGetStyle);
 
-router.get('/store', storeGet);
 router.get('/profile', profileGet);
-router.get('/rules', rulesGet);
 router.get('/you_win', youWinGet);
 router.get('/you_lose', youLoseGet);
 router.get('/leave', leaveGet);

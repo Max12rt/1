@@ -2,14 +2,6 @@ const UserAva = require('../models/userAva');
 const path = require("path");
 let sen = path.resolve(__dirname, '../');
 
-const storeGet = (request, response) => {
-    new_session = request.session;
-    if (new_session.content == true)
-        response.sendFile(sen + '/views/store.html');   
-    else
-        response.redirect('/login');
-}
-
 const profileGet = (request, response) => {
     new_session = request.session;
     if (new_session.content == true)
@@ -26,14 +18,6 @@ const changeAva = (request, response) => {
     let user = new UserAva(new_session.login);
 
     user.findAndChange(response, new_session.ava);
-}
-
-const rulesGet = (request, response) => {
-    new_session = request.session;
-    if (new_session.content == true)
-        response.sendFile(sen + '/views/rules.html');
-    else
-        response.redirect('/login');
 }
 
 const clientGet = (request, response) => {
@@ -76,9 +60,7 @@ const profileGetJs = (request, response) => {
     response.sendFile(sen + '/js/profile.js');
 }
 module.exports = {
-    storeGet,
     profileGet,
-    rulesGet,
     clientGet,
     gameGetJs,
     profileGetJs,
