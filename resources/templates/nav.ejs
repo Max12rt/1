@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="styles/nav.css">
+<nav>
+    <table>
+        <tr>
+            <th id="avatarTd">
+                <img id="avatar" src="images/ava.jpeg">
+            </th>
+            <td
+                <% if (current === '/') { %>
+                    id="current"
+                <% } else { %>
+                    onclick="location.href='/';"
+                <% } %>
+                >
+                Лоббі
+            </td>
+            <td
+                <% if (current === '/store') { %>
+                    id="current"
+                <% } else { %>
+                    onclick="location.href='/store';"
+                <% } %>
+                >
+                Картки
+            </td>
+            <td
+                <% if (current === '/profile') { %>
+                    id="current"
+                <% } else { %>
+                    onclick="location.href='/profile';"
+                <% } %>
+                >
+                Профіль
+            </td>
+            <td
+                <% if (current === '/rules') { %>
+                    id="current"
+                <% } else { %>
+                    onclick="location.href='/rules';"
+                <% } %>
+                >
+                Правила
+            </td>
+            <td id="logout"> <!--onclick="location.href='/logout';">-->
+                Вийти
+            </td>
+        </tr>
+    </table>
+</nav>
+
+<script>
+    async function send() {
+        let response = await fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        });
+        
+        let result = await response.json();
+    }
+    send();
+    let logoutButton = document.getElementById('logout');
+    logoutButton.addEventListener('click', async function (evt) {
+        
+        evt.preventDefault();
+        let response = await fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        });
+
+        let result = await response.json();
+
+        if(result.ans = "logout") {
+            window.location.href = '/login';
+        }
+    });    
+</script>

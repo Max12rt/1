@@ -2,10 +2,18 @@ const UserAva = require('../models/userAva');
 const path = require("path");
 let sen = path.resolve(__dirname, '../');
 
+const storeGet = (request, response) => {
+    new_session = request.session;
+    if (new_session.content == true)  
+        response.render('pages/store');
+    else
+        response.redirect('/login');
+}
+
 const profileGet = (request, response) => {
     new_session = request.session;
     if (new_session.content == true)
-        response.sendFile(sen + '/views/profile.html');
+        response.render('pages/profile');
     else
         response.redirect('/login');
 }
@@ -20,6 +28,14 @@ const changeAva = (request, response) => {
     user.findAndChange(response, new_session.ava);
 }
 
+const rulesGet = (request, response) => {
+    new_session = request.session;
+    if (new_session.content == true)
+        response.render('pages/rules');
+    else
+        response.redirect('/login');
+}
+
 const clientGet = (request, response) => {
     response.sendFile(sen + '/js/client.js');
 }
@@ -27,7 +43,7 @@ const clientGet = (request, response) => {
 const youLoseGet = (request, response) => {
     new_session = request.session;
     if (new_session.content == true)
-        response.sendFile(sen + '/views/you_lose.html');
+        response.render('pages/lose');
     else
         response.redirect('/login');
 }
@@ -35,7 +51,7 @@ const youLoseGet = (request, response) => {
 const youWinGet = (request, response) => {
     new_session = request.session;
     if (new_session.content == true)
-        response.sendFile(sen + '/views/you_win.html');
+        response.render('pages/win');
     else
         response.redirect('/login');
 }
@@ -43,7 +59,7 @@ const youWinGet = (request, response) => {
 const leaveGet = (request, response) => {
     new_session = request.session;
     if (new_session.content == true)
-        response.sendFile(sen + '/views/leave.html');
+        response.render('pages/leave');
     else
         response.redirect('/login');  
 }
@@ -59,8 +75,19 @@ const gameGetCss = (request, response) => {
 const profileGetJs = (request, response) => {
     response.sendFile(sen + '/js/profile.js');
 }
+
+const playgroundGet = (request, response) => {
+    new_session = request.session;
+    if (new_session.content == true)  
+        response.render('pages/playground');
+    else
+        response.redirect('/login');
+}
+
 module.exports = {
+    storeGet,
     profileGet,
+    rulesGet,
     clientGet,
     gameGetJs,
     profileGetJs,
@@ -68,5 +95,6 @@ module.exports = {
     changeAva,
     youLoseGet,
     youWinGet,
-    leaveGet
+    leaveGet,
+    playgroundGet
 };

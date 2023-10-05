@@ -1,0 +1,165 @@
+@keyframes cardHover {
+    100% {
+        margin-left: 60px;
+        margin-right: 40px;
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes cardHoverForLast {
+    100% {
+        margin-left: 60px;
+        transform: translateY(-20px);
+    }
+}
+
+#deck {
+    transform-origin: 50% 20%;
+    display: flex;
+    justify-content: center;
+}
+
+#deck > .card {
+    margin-right: -100px;
+    transition: transform 0.5s ease;
+    transform-origin: bottom center;
+}
+
+#deck > .card:not(:last-child):hover {
+    animation-name: cardHover;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-delay: 0.05s;
+    animation-fill-mode: forwards;
+}
+
+#deck > .card:last-child:hover {
+    animation-name: cardHoverForLast;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-delay: 0.05s;
+    animation-fill-mode: forwards;
+}
+
+#deck > .card:nth-child(1) {
+    transform: rotate(-20deg);
+}
+
+#deck > .card:nth-child(2) {
+    transform: rotate(-10deg);
+}
+
+#deck > .card:nth-child(3) {
+    transform: rotate(0deg);
+}
+
+#deck > .card:nth-child(4) {
+    transform: rotate(10deg);
+}
+
+#deck > .card:nth-child(5) {
+    transform: rotate(20deg);
+}
+
+#deck > .card:nth-child(6) {
+    transform: rotate(30deg);
+}
+
+#deck > .card:nth-child(7) {
+    transform: rotate(20deg);
+}
+
+#deck > .card:nth-child(8) {
+    transform: rotate(30deg);
+}
+
+.card {
+    width: 150px;
+    height: 250px;
+    padding: 0px;
+    border-radius: 10px;
+    background: linear-gradient(150deg, #aaa 15%, #aa724f);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+}
+
+.card-header {
+    width: 150px;
+    height: 150px;
+    margin: 0px;
+    padding: 0px;
+    background-size: contain;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.card-hit-points {
+    position: relative;
+    top: 8px;
+    left: 120px;
+    z-index: 0;
+    width: 30px;
+    height: 30px;
+    color: white;
+    line-height: 15px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.card-hit-points:before, .card-hit-points:after {
+    position: absolute;
+    left: 13.5px;
+    z-index: -1;
+    width: 16px;
+    height: 20px;
+    border-radius: 50px 50px 0 0;
+    background: red;
+    content: "";
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.card-hit-points:after {
+    left: -1.5px;
+    transform: rotate(45deg);
+    transform-origin : 100% 100%;
+}
+
+.card h3 {
+    font-size: 14px;
+    width: 100%;
+    height: 20px;
+    margin: 0px;
+    padding: 0px;
+    background: linear-gradient(90deg, darkred 5%, red);
+    background-color: transparent;
+    color: whitesmoke;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 5px;
+    text-shadow: lightblue 0px 0px 2px;
+}
+
+.card-description {
+    display: none;
+    height: 72px;
+    overflow: hidden;
+    margin: 0px;
+    padding: 1px 8px 0px 7px;
+    font-size: 10px;
+}
+
+.card-damage {
+    display: block;
+    position: relative;
+    bottom: -45px;
+    left: 5px;
+    width: 30px;
+    height: 30px;
+    background-image: url("../images/aim.png");
+    z-index: -1;
+    background-size: cover;
+    color: white;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+}

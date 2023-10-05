@@ -1,0 +1,46 @@
+nav {
+    margin-bottom: 10px;
+    height: 80px;
+    display: flex;
+    font: 1.4vh/2vh "Lato", Arial, sans-serif;
+}
+
+#avatarTd {
+    border: none;
+    width: 80px;
+}
+
+#avatar {
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+    margin: 5px 5px 5px 5px;
+    padding: 0;
+    width: 70px;
+    height: 70px;
+    border: solid gold 2px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table {
+    font-size: 20px;
+    text-align: center;
+    color: white;
+    background-color: rgba(30, 30, 30, 0.925);
+    width: 100%;
+    height: 80px;
+}
+
+td:not([id="current"]):hover {
+    cursor: pointer;
+    text-shadow: white 0px 0px 4px;
+    box-shadow: red 0px 0px 8px 1px inset;
+}
+
+#current {
+    box-shadow: #111 -5px -5px 8px 1px inset;
+}

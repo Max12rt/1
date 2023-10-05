@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<%- include('../templates/head.ejs', {title: 'Profile'}) %>
+    <link rel="stylesheet" href="styles/lobby.css">
+</head>
+
+<body>
+    <%#- include('../templates/header.ejs', {title: 'Profile'}) %>
+    <%- include('../templates/nav.ejs', {current: '/profile', imgUrl: 'images/av.jpeg'}) %>
+	<main>
+        <div class='profile-text'>
+            <p id="login"></p>
+            <p id="name"></p>
+            <p id="email"></p>
+        </div>
+    </main>
+    <%#- include('../templates/footer.ejs') %>
+</body>
+
+</html>

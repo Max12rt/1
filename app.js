@@ -3,6 +3,7 @@ const mainRoutes = require('./Routes/main-routes.js');
 const session = require('express-session');
 const socket = require("socket.io");
 const http = require("http");
+const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
@@ -11,6 +12,11 @@ const io = socket(server);
 const jsonParser = express.json();
 
 const PORT = process.env.PORT || 3000;
+const resources = path.join(__dirname, 'resources');
+
+app.use(express.static(resources));
+app.set('view engine', 'ejs');
+app.set('views', resources);
 
 app.use(
     session({

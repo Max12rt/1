@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<%- include('../templates/head.ejs', {title: 'Playground'}) %>
+    <link rel="stylesheet" href="styles/playground.css">
+    <link rel="stylesheet" href="styles/card.css">
+</head>
+
+<body>
+    <%#- include('../templates/header.ejs') %>
+	<main id="playground">
+        <div id="oponent" class="player">
+            <div id="oponentHitPoints" class="hitPoints">40</div>
+            <div id="deck">
+                
+            </div>
+        </div>
+        <div id="user" class="player">
+            <div id="deck">
+                <%- include('../templates/card.ejs', {card: {name: 'Blind dog', description: 'Blind Dogs have extremely keen senses of hearing and smell and can hunt, fight, and navigate through both pockets of radiation and fields of anomalies without much problem.', imageUrl: 'images/dog_10.png', hp: 20, damage: 3}}) %>
+                <%- include('../templates/card.ejs', {card: {name: 'Blind dog', description: 'Blind Dogs have extremely keen senses of hearing and smell and can hunt, fight, and navigate through both pockets of radiation and fields of anomalies without much problem.', imageUrl: 'images/dog_10.png', hp: 20, damage: 3}}) %>
+                <%- include('../templates/card.ejs', {card: {name: 'Blind dog', description: 'Blind Dogs have extremely keen senses of hearing and smell and can hunt, fight, and navigate through both pockets of radiation and fields of anomalies without much problem.', imageUrl: 'images/dog_10.png', hp: 20, damage: 3}}) %>
+                <%- include('../templates/card.ejs', {card: {name: 'Blind dog', description: 'Blind Dogs have extremely keen senses of hearing and smell and can hunt, fight, and navigate through both pockets of radiation and fields of anomalies without much problem.', imageUrl: 'images/dog_10.png', hp: 20, damage: 3}}) %>
+                <%- include('../templates/card.ejs', {card: {name: 'Blind dog', description: 'Blind Dogs have extremely keen senses of hearing and smell and can hunt, fight, and navigate through both pockets of radiation and fields of anomalies without much problem.', imageUrl: 'images/dog_10.png', hp: 20, damage: 3}}) %>
+                <%- include('../templates/card.ejs', {card: {name: 'Blind dog', description: 'Blind Dogs have extremely keen senses of hearing and smell and can hunt, fight, and navigate through both pockets of radiation and fields of anomalies without much problem.', imageUrl: 'images/dog_10.png', hp: 20, damage: 3}}) %>
+            </div>
+            <div id="userHitPoints" class="hitPoints">40</div>
+        </div>
+    </main>
+    <%#- include('../templates/footer.ejs') %>
+	<script type="text/javascript" src="ejs.js"></script>
+	<script type="text/javascript" src="playground.js"></script>
+</body>
+
+</html>

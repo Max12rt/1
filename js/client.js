@@ -3,6 +3,28 @@ let userId;
 let login;
 let img;
 
+const countCoef = 4.499999;
+
+let template =
+` 
+<div id="<%= id %>">
+    <div class="cards" id="<%= counterCardsUser %>">
+        <div class="cards__image" style="background-image: url(<%= imgUrl %>);">
+            <div id="hp">
+                <div id="value"><%= hp %></div>
+            </div>
+        </div>
+        <div class="cards__unit-name"><%= name %></div>
+        <div class="cards__unit-description"><%= superpower %></div>
+        <div id="attack">
+            <div id="value"><%= attack %></div>
+        </div>
+        <div id="price">
+            <div id="value"><%= price %></div>
+        </div>
+    </div>
+</div>
+`;
 
 socket.on("connect", () => {
     console.log(`my id = ${socket.id}`);
@@ -28,10 +50,10 @@ document.getElementById('gradient-button').addEventListener('click', () => {
 let datas;
 
 socket.on('start-game', (data) => {
-    
+    document.querySelector('nav').setAttribute('style', 'display:none');
     document.getElementById('container1').setAttribute('style', 'display:none');
     document.getElementById('container2').setAttribute('style', 'display:block');
-    document.body.style.backgroundImage = "url('assets/game/fon2.png')";
+    document.body.style.backgroundImage = "url('images/playground.png')";
     document.getElementById('youName').innerText = login;
     document.getElementsByClassName('main-cards__image')[1].style.backgroundImage = `url(${img})`;
     window.scrollTo(0, document.body.scrollHeight);
@@ -71,181 +93,56 @@ let counterCardsOpponent = 0;
 let counterOnBoardCardsUser = 0;
 let counterOnBoardCardsOpponent = 0;
 let counterOfClicks = false;
-const nHeroes = 21;
+const nHeroes = 5;
 let previousIndexOfCard = -1;
 let previousCounterOnBoardCardsUser = 0;
 let arrOfIndexUserCards= [];
 let arrHeroes = [];
 
 arrHeroes[0] = {
-    id: 'spiderman',
+    id: 'stalker',
     attack: 5,
-    defense: 4,
-    price: 5,
-    name: 'Людина-павук',
-    superpower: 'Вам додається 2 картки '
+    defense: 6,
+    price: 4,
+    name: 'Сталкер',
+    superpower: 'Вам додається 2 картки',
+    imgUrl: 'images/stalker_01.png'
 }
 arrHeroes[1] = {
-    id: 'captain-America',
-    attack: 4,
-    defense: 4,
-    price: 5,
-    name: 'Капітан Америка',
-    superpower: '+1 до захисту карток співкомандників'
-
+    id: 'blindDog',
+    attack: 3,
+    defense: 3,
+    price: 2,
+    name: 'Сліпий пес',
+    superpower: 'Не має спеціальних навичок',
+    imgUrl: 'images/dog_10.png'
 }
 arrHeroes[2] = {
-    id: 'iron-man',
-    attack: 2,
-    defense: 7,
-    price: 4,
-    name: 'Залізна людина',
-    superpower: '-1 до атаки карток опонентів'
-}
-arrHeroes[3] = {
-    id: 'black-widow',
+    id: 'pseudocat',
     attack: 2,
     defense: 1,
     price: 1,
-    name: 'Чорна вдова',
-    superpower: '+1 до атаки карток співкомандників'
+    name: 'Псевдокіт',
+    superpower: 'Ставиться одразу 2 даних картки',
+    imgUrl: 'images/pseudocat.png'
 }
-arrHeroes[4] = {
-    id: 'tor',
+arrHeroes[3] = {
+    id: 'bloodsucker',
     attack: 4,
     defense: 4,
-    price: 5,
-    name: 'Тор',
-    superpower: '+3 монети на цьому ході'
+    price: 3,
+    name: 'Кровосос',
+    superpower: "+3 до здоров'я вашого героя.",
+    imgUrl: 'images/bloodsucker.png'
 }
-arrHeroes[5] = {
-    id: 'hulk',
-    attack: 7,
-    defense: 6,
-    price: 5,
-    name: 'Халк',
-    superpower: 'Не має спеціальних навичок.'
-    
-}
-arrHeroes[6] = {
-    id: 'deadpool',
+arrHeroes[4] = {
+    id: 'pseudogiant',
     attack: 4,
-    defense: 2,
-    price: 3,
-    name: 'Дедпул',
-    superpower: "+3 до здоров'я вашого героя."
-}
-arrHeroes[7] = {
-    id: 'black-pantera',
-    attack: 4,
-    defense: 3,
-    price: 4,
-    name: 'Чорна пантера',
-    superpower: "-3 до здоров'я героя опонента."
-}
-arrHeroes[8] = {
-    id: 'doctor-strength',
-    attack: 5,
-    defense: 2,
-    price: 5,
-    name: 'Доктор Стрендж',
-    superpower: 'Може атакувати на першому ході.'
-}
-arrHeroes[9] = {
-    id: 'thanos',
-    attack: 6,
-    defense: 6,
-    price: 8,
-    name: 'Танос',
-    superpower: 'Ставиться одразу 2 даних картки.'
-}
-arrHeroes[10] = {
-    id: 'eye',
-    attack: 2,
-    defense: 1,
-    price: 3,
-    name: 'Соколине око',
-    superpower: '+2 до захисту карток співкомандників'
-}
-arrHeroes[11] = {
-    id: 'nick-fiuri',
-    attack: 2,
-    defense: 2,
-    price: 3,
-    name: 'Нік Фьюрі',
-    superpower: '+2 до атаки карток співкомандників'
-}
-arrHeroes[12] = {
-    id: 'antman',
-    attack: 2,
-    defense: 1,
-    price: 5,
-    name: 'Людина-мураха',
-    superpower: 'При появі знищує всі картки опонента.'
-}
-arrHeroes[13] = {
-    id: 'groot',
-    attack: 1,
-    defense: 1,
-    price: 4,
-    name: 'Грут',
-    superpower: 'При появі знищує всі картки на столі.'
-}
-arrHeroes[14] = {
-    id: 'gamora',
-    attack: 2,
-    defense: 3,
-    price: 3,
-    name: 'Гамора',
-    superpower: '-2 до ціни ваших витягнутих карток.'
-}
-arrHeroes[15] = {
-    id: 'star-knight',
-    attack: 2,
-    defense: 1,
-    price: 3,
-    name: 'Зоряний лорд',
-    superpower: 'Розблоковує хід усім вашим карткам.'
-}
-arrHeroes[16] = {
-    id: 'rocket',
-    attack: 1,
-    defense: 2,
-    price: 3,
-    name: 'Ракета',
-    superpower: 'Захист всіх карток ворога стає 2.'
-}
-arrHeroes[17] = {
-    id: 'drucks',
-    attack: 1,
-    defense: 3,
-    price: 2,
-    name: 'Дракс руйнівник',
-    superpower: 'Атака всіх карток ворога стає 2.'
-}
-arrHeroes[18] = {
-    id: 'winter-soldier',
-    attack: 1,
-    defense: 2,
-    price: 2,
-    name: 'Зимовий солдат',
-    superpower: 'Атака всіх ваших карток стає 3.'
-}
-arrHeroes[19] = {
-    id: 'falcon',
-    attack: 3,
-    defense: 2,
-    price: 3,
-    name: 'Сокіл',
-    superpower: 'Захист всіх ваших карток стає 3.'
-}
-arrHeroes[20] = {
-    id: 'roady',
-    attack: 3,
-    defense: 3,
-    price: 4,
-    name: 'Роуді',
-    superpower: '-2 до атаки карток опонентів'
+    defense: 10,
+    price: 6,
+    name: 'Псевдогігант',
+    superpower: 'Захист всіх карток ворога стає 2.',
+    imgUrl: 'images/pseudogiant.png'
 }
 
 function getRandomArbitrary(max, min){
@@ -312,38 +209,25 @@ function addNewUserCard(){
     if(counterCardsUser <= 7){
         counterCardsUser++;
         let temp = counterCardsUser;
-        let index = getRandomArbitrary(20.499999, -0.499999);
+        let index = getRandomArbitrary(countCoef, -0.499999);
         let user_cards = document.querySelector('.cards_user');
-        user_cards.innerHTML += ` 
-        <div id=${arrHeroes[index].id} >
-            <div class="cards" id='cardUser${counterCardsUser}'>
-                <div class="cards__image">
-                    <img src="assets/heroes/${index + 1}.png" alt="Hero" id="img-${arrHeroes[index].id}">
-                </div>
-                <div class="cards__unit-name">${arrHeroes[index].name}</div>
-                <div class="cards__unit-description">${arrHeroes[index].superpower}</div>
-                <div class="cards__unit-stats clearfix">
-                    <div class="one-third">
-                        <div class="stat">${arrHeroes[index].attack}</div>
-                        <div class="stat-value">Атака</div>
-                    </div>
-                    <div class="one-third">
-                        <div class="stat">${arrHeroes[index].defense}</div>
-                        <div class="stat-value">Захист</div>
-                    </div>
-                    <div class="one-third no-border">
-                        <div class="stat">${arrHeroes[index].price}</div>
-                        <div class="stat-value">Ціна</div>
-                    </div>
-                </div>
-            </div>
-        </div>`;
+        let html = ejs.render(template, {
+            id: arrHeroes[index].id,
+            counterCardsUser: `cardUser${counterCardsUser}`,
+            imgUrl: arrHeroes[index].imgUrl,
+            hp: arrHeroes[index].defense,
+            name: arrHeroes[index].name,
+            superpower: arrHeroes[index].superpower,
+            attack: arrHeroes[index].attack,
+            price: arrHeroes[index].price
+        });
+        user_cards.innerHTML += html;
         addAnimation1(); 
         for(let i = 1; i < counterCardsUser + 1; i++){
             let current = document.getElementById('cardUser' + i);
-            if(document.getElementById('money-user-value1').innerHTML >= current.children[3].children[2].children[0].innerHTML){
+            if(document.getElementById('money-user-value1').innerHTML >= current.querySelector('#price').querySelector('#value').innerHTML) {
                 addHover1(i);
-            } 
+            }
             else{
                 removeHover1(i);
             }
@@ -361,7 +245,7 @@ function addNewUserCard(){
         setTimeout(Hide1, 3000);
         for(let i = 1; i < counterCardsUser + 1; i++){
             let current = document.getElementById('cardUser' + i);
-            if(document.getElementById('money-user-value1').innerHTML >= current.children[3].children[2].children[0].innerHTML)
+            if(document.getElementById('money-user-value1').innerHTML >= current.querySelector('#price').querySelector('#value').innerHTML)
                 addHover1(i);
             else
                 removeHover1(i);
@@ -375,36 +259,23 @@ function addNewUserCardModified(){
     if(counterCardsUser <= 7){
         counterCardsUser++;
         let temp = counterCardsUser;
-        let index = getRandomArbitrary(20.499999, -0.499999);
+        let index = getRandomArbitrary(countCoef, -0.499999);
         let user_cards = document.querySelector('.cards_user');
-        user_cards.innerHTML += ` 
-        <div id=${arrHeroes[index].id} >
-            <div class="cards" id='cardUser${counterCardsUser}'>
-                <div class="cards__image">
-                    <img src="assets/heroes/${index + 1}.png" alt="Hero" id="img-${arrHeroes[index].id}">
-                </div>
-                <div class="cards__unit-name">${arrHeroes[index].name}</div>
-                <div class="cards__unit-description">${arrHeroes[index].superpower}</div>
-                <div class="cards__unit-stats clearfix">
-                    <div class="one-third">
-                        <div class="stat">${arrHeroes[index].attack}</div>
-                        <div class="stat-value">Атака</div>
-                    </div>
-                    <div class="one-third">
-                        <div class="stat">${arrHeroes[index].defense}</div>
-                        <div class="stat-value">Захист</div>
-                    </div>
-                    <div class="one-third no-border">
-                        <div class="stat">${arrHeroes[index].price}</div>
-                        <div class="stat-value">Ціна</div>
-                    </div>
-                </div>
-            </div>
-        </div>`;
+        let html = ejs.render(template, {
+            id: arrHeroes[index].id,
+            counterCardsUser: `cardUser${counterCardsUser}`,
+            imgUrl: arrHeroes[index].imgUrl,
+            hp: arrHeroes[index].defense,
+            name: arrHeroes[index].name,
+            superpower: arrHeroes[index].superpower,
+            attack: arrHeroes[index].attack,
+            price: arrHeroes[index].price
+        });
+        user_cards.innerHTML += html;
         addAnimation1(); 
         for(let i = 1; i < counterCardsUser + 1; i++){
             let current = document.getElementById('cardUser' + i);
-            if(document.getElementById('money-user-value1').innerHTML >= current.children[3].children[2].children[0].innerHTML){
+            if(document.getElementById('money-user-value1').innerHTML >= current.querySelector('#price').querySelector('#value').innerHTML){
                 addHover1(i);
             } 
             else{
@@ -419,7 +290,7 @@ function addNewUserCardModified(){
         setTimeout(Hide1, 3000);
         for(let i = 1; i < counterCardsUser + 1; i++){
             let current = document.getElementById('cardUser' + i);
-            if(document.getElementById('money-user-value1').innerHTML >= current.children[3].children[2].children[0].innerHTML){
+            if(document.getElementById('money-user-value1').innerHTML >= current.querySelector('#price').querySelector('#value').innerHTML){
                 addHover1(i);
             } 
             else{
@@ -436,7 +307,7 @@ function addNewOpponentCard(){
         let user_cards = document.querySelector('.cards_opponent');
         user_cards.innerHTML += ` 
             <div id='cardOpponent${counterCardsOpponent}'>
-                <img src='./assets/game/card2.jpeg' id='cardOpponentImg${counterCardsOpponent}' alt='CardOpponent'>
+                <img src='images/card.jpeg' id='cardOpponentImg${counterCardsOpponent}' alt='CardOpponent'>
             </div> `;
         removeAnimation2Opponent();
         addAnimationOpponent1();
@@ -457,7 +328,7 @@ function addNewOpponentCardModified(){
         let user_cards = document.querySelector('.cards_opponent');
         user_cards.innerHTML += ` 
             <div id='cardOpponent${counterCardsOpponent}'>
-                <img src='./assets/game/card2.jpeg' id='cardOpponentImg${counterCardsOpponent}' alt='CardOpponent'>
+                <img src='images/card.jpeg' id='cardOpponentImg${counterCardsOpponent}' alt='CardOpponent'>
             </div> `;
         addAnimationOpponent1();
         sortCards('cardOpponentImg', counterCardsOpponent);
@@ -496,7 +367,7 @@ function sortCards(playerId, counter){
 function clickOnCard(counter){
     for(let i = 0; i < counter + 1; i++){
         let card = document.getElementById('cardUser' + i);
-        if(card !== null && card !==undefined){
+        if(card !== null && card !== undefined){
             card.onclick = () =>{addUserCardOnBoard(i);}
         }
     }
@@ -518,47 +389,64 @@ function checkSuperpower(index){
             }, 1500);
             break;
         case 1:
-            for(let i = 1; i < counterOnBoardCardsUser; i++){
-                let elem = document.getElementById('card-user-on-board' + i);
-                elem.children[3].children[1].children[0].innerHTML = Number(elem.children[3].children[1].children[0].innerHTML) + 1;
-                addAnimation5(elem, 1);
-                setTimeout(()=>{
-                        removeAnimation5(elem, 1);
-                },1000)
-            }
             break;
         case 2:
-            for(let i = 1; i < counterOnBoardCardsOpponent + 1; i++){
-                let elem = document.getElementById('cardOpponentOnBoard' + i);
-                if(elem.children[3].children[0].children[0].innerHTML > 1){
-                    elem.children[3].children[0].children[0].innerHTML = Number(elem.children[3].children[0].children[0].innerHTML) - 1;
-                    addAnimation5(elem, 0);
-                    setTimeout(()=>{
-                        removeAnimation5(elem, 0);
-                    },1000)
+            if(counterOnBoardCardsUser <= 6){
+                counterOnBoardCardsUser++;
+                let user_cards = document.querySelector('.cards_user');               
+                let html = ejs.render(template, {
+                    id: arrHeroes[index].id,
+                    counterCardsUser: `card-user-on-board${counterOnBoardCardsUser}`,
+                    imgUrl: arrHeroes[2].imgUrl,
+                    hp: arrHeroes[2].defense,
+                    name: arrHeroes[2].name,
+                    superpower: arrHeroes[2].superpower,
+                    attack: arrHeroes[2].attack,
+                    price: arrHeroes[2].price
+                });
+                user_cards.innerHTML += html;
+                let divUserNumber = document.getElementById('card-user-on-board' + counterOnBoardCardsUser);
+            setTimeout(() => {
+                divUserNumber.style.display = 'block';
+                addAnimation4(divUserNumber);
+            }, 1000);
+                divUserNumber.style.display = 'none';
+                divUserNumber.style.top = '50%';              
+                sortCardsOnBoard('card-user-on-board', counterOnBoardCardsUser);
+                unclickOnBoardOneCard(counterOnBoardCardsUser);
+                unclickOnBoardOneCard(counterOnBoardCardsUser - 1);
+                addOpacity(counterOnBoardCardsUser);
+                clickOnCard(counterCardsUser);
+                unclickOpponentCard();          
+            }
+            for(let i = 1; i < counterOnBoardCardsUser - 1; i++){
+                let card = document.getElementById('card-user-on-board' + i);
+                if(card !== null && card !== undefined){
+                    if(card.style.opacity == 1){
+                        card.onclick = () =>{fightOpponent(i);}
+                    } else {
+                        unclickOnBoardOneCard(i);
+                    }
                 }
             }
             break;
         case 3:
-            for(let i = 1; i < counterOnBoardCardsUser; i++){
-                let elem = document.getElementById('card-user-on-board' + i);
-                elem.children[3].children[0].children[0].innerHTML = Number(elem.children[3].children[0].children[0].innerHTML) + 1;
-                addAnimation5(elem, 0);
-                setTimeout(()=>{
-                    removeAnimation5(elem, 0);
-                }, 1000)
-            }
+            document.getElementById('you').children[2].children[0].innerHTML = Number(document.getElementById('you').children[2].children[0].innerHTML) + 3;
+            addAnimation5Main(document.getElementById('you'));
+            setTimeout(()=>{
+                removeAnimation5Main(document.getElementById('you'));
+            }, 1000);
             break;
         case 4:
-            document.getElementById('money-user-value1').innerHTML = Number(document.getElementById('money-user-value1').innerHTML) + 3;
-            for(let i = 1; i < counterCardsUser + 1; i++){
-                let current = document.getElementById('cardUser' + i);
-                if(document.getElementById('money-user-value1').innerHTML >= current.children[3].children[2].children[0].innerHTML){
-                    addHover1(i);
-                } 
-                else{
-                    removeHover1(i);
-                }
+            if(counterOnBoardCardsOpponent >= 1){
+                for(let i = 1; i < counterOnBoardCardsOpponent + 1; i++){
+                    let cardOpponent = document.getElementById('cardOpponentOnBoard' + i);
+                    addAnimation3All(cardOpponent);
+                    setTimeout(() => {
+                        cardOpponent.outerHTML = '';
+                    }, 1500);
+                }   
+                counterOnBoardCardsOpponent = 0;
             }
             break;
         case 5:
@@ -603,32 +491,18 @@ function checkSuperpower(index){
         case 9:
             if(counterOnBoardCardsUser <= 6){
                 counterOnBoardCardsUser++;
-                let user_cards = document.querySelector('.cards_user');                    
-                user_cards.innerHTML += ` 
-                <div id=${arrHeroes[9].id} >
-                    <div class="cards" id='card-user-on-board${counterOnBoardCardsUser}'>
-                        <div class="cards__image">
-                            <img src="assets/heroes/10.png" alt="Hero" id="img-${arrHeroes[9].id}">
-                        </div>
-                        <div class="cards__unit-name">${arrHeroes[9].name}</div>
-                        <div class="cards__unit-description">${arrHeroes[9].superpower}</div>
-                        <div class="cards__unit-stats clearfix">
-                            <div class="one-third">
-                                <div class="stat">${arrHeroes[9].attack}</div>
-                                <div class="stat-value">Атака</div>
-                            </div>
-                            <div class="one-third">
-                                <div class="stat">${arrHeroes[9].defense}</div>
-                                <div class="stat-value">Захист</div>
-                            </div>
-                            <div class="one-third no-border">
-                                <div class="stat">${arrHeroes[9].price}</div>
-                                <div class="stat-value">Ціна</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-                
+                let user_cards = document.querySelector('.cards_user');               
+                let html = ejs.render(template, {
+            id: arrHeroes[index].id,
+            counterCardsUser: `cardUser${counterOnBoardCardsUser}`,
+            imgUrl: arrHeroes[9].imgUrl,
+            hp: arrHeroes[9].defense,
+            name: arrHeroes[9].name,
+            superpower: arrHeroes[9].superpower,
+            attack: arrHeroes[9].attack,
+            price: arrHeroes[9].price
+        });
+                user_cards.innerHTML += html;
                 let divUserNumber = document.getElementById('card-user-on-board' + counterOnBoardCardsUser);
             setTimeout(() => {
                 divUserNumber.style.display = 'block';
@@ -645,8 +519,7 @@ function checkSuperpower(index){
         }
         for(let i = 1; i < counterOnBoardCardsUser - 1; i++){
             let card = document.getElementById('card-user-on-board' + i);
-            if(card !== null && card !==undefined){
-                //console.log(card.style.opacity);
+            if(card !== null && card !== undefined){
                 if(card.style.opacity == 1){
                     card.onclick = () =>{fightOpponent(i);}
                 }
@@ -659,7 +532,7 @@ function checkSuperpower(index){
         case 10:
             for(let i = 1; i < counterOnBoardCardsUser; i++){
                 let elem = document.getElementById('card-user-on-board' + i);
-                elem.children[3].children[1].children[0].innerHTML = Number(elem.children[3].children[1].children[0].innerHTML) + 2;
+                elem.querySelector('#hp').querySelector('#value').innerHTML = Number(elem.querySelector('#hp').querySelector('#value').innerHTML) + 2;
                 addAnimation5(elem, 1);
                 setTimeout(()=>{
                     removeAnimation5(elem, 1);
@@ -669,7 +542,7 @@ function checkSuperpower(index){
         case 11:
             for(let i = 1; i < counterOnBoardCardsUser; i++){
                 let elem = document.getElementById('card-user-on-board' + i);
-                elem.children[3].children[0].children[0].innerHTML = Number(elem.children[3].children[0].children[0].innerHTML) + 2;
+                elem.querySelector('#attack').querySelector('#value').innerHTML = Number(elem.querySelector('#attack').querySelector('#value').innerHTML) + 2;
                 addAnimation5(elem, 0);
                 setTimeout(()=>{
                     removeAnimation5(elem, 0);
@@ -713,17 +586,17 @@ function checkSuperpower(index){
         case 14:
             for(let i = 1; i < counterCardsUser + 1; i++){
                 let cardUser = document.getElementById('cardUser' + i);
-                if(Number(cardUser.children[3].children[2].children[0].innerHTML) > 2) {
-                    cardUser.children[3].children[2].children[0].innerHTML = Number(cardUser.children[3].children[2].children[0].innerHTML) - 2;
+                if(Number(cardUser.querySelector('#price').querySelector('#value').innerHTML) > 2) {
+                    cardUser.querySelector('#price').querySelector('#value').innerHTML = Number(cardUser.querySelector('#price').querySelector('#value').innerHTML) - 2;
                 }
                 else{
-                    cardUser.children[3].children[2].children[0].innerHTML = 1;
+                    cardUser.querySelector('#price').querySelector('#value').innerHTML = 1;
                 }
                 addAnimation5(cardUser, 2);
                 setTimeout(()=>{
                     removeAnimation5(cardUser, 2);
                 }, 1000);
-                if(document.getElementById('money-user-value1').innerHTML >= cardUser.children[3].children[2].children[0].innerHTML){
+                if(document.getElementById('money-user-value1').innerHTML >= cardUser.querySelector('#price').querySelector('#value').innerHTML){
                     addHover1(i);
                 } 
                 else{
@@ -758,7 +631,7 @@ function checkSuperpower(index){
             for(let i = 1; i < counterOnBoardCardsOpponent + 1; i++){
                 let elem = document.getElementById('cardOpponentOnBoard' + i);
                 if(elem){
-                    elem.children[3].children[1].children[0].innerHTML = 2;
+                    elem.querySelector('#hp').querySelector('#value').innerHTML = 2;
                     addAnimation5(elem, 1);
                     setTimeout(()=>{
                         removeAnimation5(elem, 1);
@@ -770,7 +643,7 @@ function checkSuperpower(index){
             for(let i = 1; i < counterOnBoardCardsOpponent + 1; i++){
                 let elem = document.getElementById('cardOpponentOnBoard' + i);
                 if(elem){
-                    elem.children[3].children[0].children[0].innerHTML = 2;
+                    elem.querySelector('#attack').querySelector('#value').innerHTML = 2;
                     addAnimation5(elem, 0);
                     setTimeout(()=>{
                         removeAnimation5(elem, 0);
@@ -782,7 +655,7 @@ function checkSuperpower(index){
             for(let i = 1; i < counterOnBoardCardsUser; i++){
                 let elem = document.getElementById('card-user-on-board' + i);
                 if(elem){
-                    elem.children[3].children[0].children[0].innerHTML = 3;
+                    elem.querySelector('#attack').querySelector('#value').innerHTML = 3;
                     addAnimation5(elem, 0);
                     setTimeout(()=>{
                         removeAnimation5(elem, 0);
@@ -794,7 +667,7 @@ function checkSuperpower(index){
             for(let i = 1; i < counterOnBoardCardsUser; i++){
                 let elem = document.getElementById('card-user-on-board' + i);
                 if(elem){
-                    elem.children[3].children[1].children[0].innerHTML = 3;
+                    elem.querySelector('#hp').querySelector('#value').innerHTML = 3;
                     addAnimation5(elem, 1);
                     setTimeout(()=>{
                         removeAnimation5(elem, 1);
@@ -805,11 +678,11 @@ function checkSuperpower(index){
         case 20:
             for(let i = 1; i < counterOnBoardCardsOpponent + 1; i++) {
                 let elem = document.getElementById('cardOpponentOnBoard' + i);
-                if(elem.children[3].children[0].children[0].innerHTML > 2){
-                    elem.children[3].children[0].children[0].innerHTML = Number(elem.children[3].children[0].children[0].innerHTML) - 2;
+                if(elem.querySelector('#attack').querySelector('#value').innerHTML > 2){
+                    elem.querySelector('#attack').querySelector('#value').innerHTML = Number(elem.querySelector('#attack').querySelector('#value').innerHTML) - 2;
                 }
                 else{
-                    elem.children[3].children[0].children[0].innerHTML = 1;
+                    elem.querySelector('#attack').querySelector('#value').innerHTML = 1;
                 }
                 addAnimation5(elem, 0);
                 setTimeout(()=>{
@@ -832,7 +705,7 @@ function addUserCardOnBoard(indexOfCard){
     if(isYourCourse.innerHTML != 'Хід суперника'){
         if(counterOnBoardCardsUser <= 6){
             let divUserNumber = document.getElementById('cardUser' + indexOfCard);
-            cur_value -= divUserNumber.children[3].children[2].children[0].innerHTML;
+            cur_value -= divUserNumber.querySelector('#price').querySelector('#value').innerHTML;
             if(cur_value >= 0){
                 counterOnBoardCardsUser++;
                 document.getElementById('money-user-value1').innerHTML = cur_value;
@@ -890,43 +763,51 @@ function checkSuperpowerOpponent(index){
             }, 1500);
             break;
         case 1:
-            for(let i = 1; i < counterOnBoardCardsOpponent; i++){
-                let elem = document.getElementById('cardOpponentOnBoard' + i);
-                elem.children[3].children[1].children[0].innerHTML = Number(elem.children[3].children[1].children[0].innerHTML) + 1;
-                addAnimation5(elem, 1);
-                setTimeout(()=>{
-                        removeAnimation5(elem, 1);
-                },1000)
-            }
             break;
-        
         case 2:
-            for(let i = 1; i < counterOnBoardCardsUser + 1; i++){
-                let elem = document.getElementById('card-user-on-board' + i);
-                if(elem.children[3].children[0].children[0].innerHTML > 1){
-                    elem.children[3].children[0].children[0].innerHTML = Number(elem.children[3].children[0].children[0].innerHTML) - 1;
-                }
-                addAnimation5(elem, 0);
-                setTimeout(()=>{
-                    removeAnimation5(elem, 0);
-                },1000)
+            if(counterOnBoardCardsOpponent <= 6){
+                setTimeout(() => {
+                    counterOnBoardCardsOpponent++;
+                    let opponentCardsOnBoard = document.querySelector('.cards-opponent-on-board');
+                    let html = ejs.render(template, {
+                        id: arrHeroes[index].id,
+                        counterCardsUser: `cardOpponentOnBoard${counterOnBoardCardsOpponent}`,
+                        imgUrl: arrHeroes[2].imgUrl,
+                        hp: arrHeroes[2].defense,
+                        name: arrHeroes[2].name,
+                        superpower: arrHeroes[2].superpower,
+                        attack: arrHeroes[2].attack,
+                        price: arrHeroes[2].price
+                    });
+                    opponentCardsOnBoard.innerHTML += html;
+                    sortCardsOnBoard('cardOpponentOnBoard', counterOnBoardCardsOpponent);
+                    let divUserNumber = document.getElementById('cardOpponentOnBoard' + counterOnBoardCardsOpponent);
+                    setTimeout(()=>{ addAnimation4(divUserNumber);}, 1);
+                    divUserNumber.style.top = '20%';              
+                    removeAnimation2Opponent();
+                }, 1000);
             }
             break;
        
         case 3:
-            for(let i = 1; i < counterOnBoardCardsOpponent; i++){
-                let elem = document.getElementById('cardOpponentOnBoard' + i);
-                elem.children[3].children[0].children[0].innerHTML = Number(elem.children[3].children[0].children[0].innerHTML) + 2;
-                addAnimation5(elem, 0);
-                setTimeout(()=>{
-                    removeAnimation5(elem, 0);
-                }, 1000)
+            document.getElementById('opponent').children[2].children[0].innerHTML = Number(document.getElementById('opponent').children[2].children[0].innerHTML) + 3;
+            addAnimation5Main(document.getElementById('opponent'));
+            setTimeout(()=>{
+                removeAnimation5Main(document.getElementById('opponent'));
+            }, 1000);
+            break;
+        case 4:
+            if(counterOnBoardCardsUser >= 1){
+                for(let i = 1; i < counterOnBoardCardsUser + 1; i++){
+                    let cardUser = document.getElementById('card-user-on-board' + i);
+                    addAnimation3All(cardUser);
+                    setTimeout(() => {
+                        cardUser.outerHTML = '';
+                    }, 1500);
+                }   
+                counterOnBoardCardsUser =  0;
             }
             break;
-
-        case 4:
-            break;
-        
         case 5:
             break;
         case 6:
@@ -957,30 +838,17 @@ function checkSuperpowerOpponent(index){
                 setTimeout(() => {
                     counterOnBoardCardsOpponent++;
                     let opponentCardsOnBoard = document.querySelector('.cards-opponent-on-board');
-                    opponentCardsOnBoard.innerHTML += ` 
-                        <div id=${arrHeroes[9].id} >
-                            <div class="cards" id='cardOpponentOnBoard${counterOnBoardCardsOpponent}'>
-                                <div class="cards__image">
-                                    <img src="assets/heroes/10.png" alt="Hero" id="img-${arrHeroes[9].id}">
-                                </div>
-                                <div class="cards__unit-name">${arrHeroes[9].name}</div>
-                                <div class="cards__unit-description">${arrHeroes[9].superpower}</div>
-                                <div class="cards__unit-stats clearfix">
-                                    <div class="one-third">
-                                        <div class="stat">${arrHeroes[9].attack}</div>
-                                        <div class="stat-value">Атака</div>
-                                    </div>
-                                    <div class="one-third">
-                                        <div class="stat">${arrHeroes[9].defense}</div>
-                                        <div class="stat-value">Захист</div>
-                                    </div>
-                                    <div class="one-third no-border">
-                                        <div class="stat">${arrHeroes[9].price}</div>
-                                        <div class="stat-value">Ціна</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
+                    let html = ejs.render(template, {
+                        id: arrHeroes[index].id,
+                        counterCardsUser: `cardUser${counterOnBoardCardsUser}`,
+                        imgUrl: arrHeroes[9].imgUrl,
+                        hp: arrHeroes[9].defense,
+                        name: arrHeroes[9].name,
+                        superpower: arrHeroes[9].superpower,
+                        attack: arrHeroes[9].attack,
+                        price: arrHeroes[9].price
+                    });
+                    opponentCardsOnBoard.innerHTML += html;
                     sortCardsOnBoard('cardOpponentOnBoard', counterOnBoardCardsOpponent);
                     let divUserNumber = document.getElementById('cardOpponentOnBoard' + counterOnBoardCardsOpponent);
                     setTimeout(()=>{ addAnimation4(divUserNumber);}, 1);
@@ -992,7 +860,7 @@ function checkSuperpowerOpponent(index){
         case 10: 
             for(let i = 1; i < counterOnBoardCardsOpponent; i++){
                 let elem = document.getElementById('cardOpponentOnBoard' + i);
-                elem.children[3].children[1].children[0].innerHTML = Number(elem.children[3].children[1].children[0].innerHTML) + 2;
+                elem.querySelector('#hp').querySelector('#value').innerHTML = Number(elem.querySelector('#hp').querySelector('#value').innerHTML) + 2;
                 addAnimation5(elem, 1);
                 setTimeout(()=>{
                     removeAnimation5(elem, 1);
@@ -1002,7 +870,7 @@ function checkSuperpowerOpponent(index){
         case 11:
             for(let i = 1; i < counterOnBoardCardsOpponent; i++){
                 let elem = document.getElementById('cardOpponentOnBoard' + i);
-                elem.children[3].children[0].children[0].innerHTML = Number(elem.children[3].children[0].children[0].innerHTML) + 2;
+                elem.querySelector('#attack').querySelector('#value').innerHTML = Number(elem.querySelector('#attack').querySelector('#value').innerHTML) + 2;
                 addAnimation5(elem, 0);
                 setTimeout(()=>{
                     removeAnimation5(elem, 0);
@@ -1055,7 +923,7 @@ function checkSuperpowerOpponent(index){
             for(let i = 1; i < counterOnBoardCardsUser + 1; i++){
                 let elem = document.getElementById('card-user-on-board' + i);
                 if(elem){
-                    elem.children[3].children[1].children[0].innerHTML = 2;
+                    elem.querySelector('#hp').querySelector('#value').innerHTML = 2;
                     addAnimation5(elem, 1);
                     setTimeout(()=>{
                         removeAnimation5(elem, 1);
@@ -1068,7 +936,7 @@ function checkSuperpowerOpponent(index){
             for(let i = 1; i < counterOnBoardCardsUser + 1; i++){
                 let elem = document.getElementById('card-user-on-board' + i);
                 if(elem){
-                    elem.children[3].children[0].children[0].innerHTML = 2;
+                    elem.querySelector('#attack').querySelector('#value').innerHTML = 2;
                     addAnimation5(elem, 0);
                     setTimeout(()=>{
                         removeAnimation5(elem, 0);
@@ -1081,7 +949,7 @@ function checkSuperpowerOpponent(index){
             for(let i = 1; i < counterOnBoardCardsOpponent; i++){
                 let elem = document.getElementById('cardOpponentOnBoard' + i);
                 if(elem){
-                    elem.children[3].children[0].children[0].innerHTML = 3;
+                    elem.querySelector('#attack').querySelector('#value').innerHTML = 3;
                     addAnimation5(elem, 0);
                     setTimeout(()=>{
                         removeAnimation5(elem, 0);
@@ -1093,7 +961,7 @@ function checkSuperpowerOpponent(index){
             for(let i = 1; i < counterOnBoardCardsOpponent; i++){
                 let elem = document.getElementById('cardOpponentOnBoard' + i);
                 if(elem){
-                    elem.children[3].children[1].children[0].innerHTML = 3;
+                    elem.querySelector('#hp').querySelector('#value').innerHTML = 3;
                     addAnimation5(elem, 1);
                     setTimeout(()=>{
                         removeAnimation5(elem, 1);
@@ -1105,11 +973,11 @@ function checkSuperpowerOpponent(index){
         case 20:
             for(let i = 1; i < counterOnBoardCardsUser + 1; i++){
                 let elem = document.getElementById('card-user-on-board' + i);
-                if(elem.children[3].children[0].children[0].innerHTML > 2){
-                    elem.children[3].children[0].children[0].innerHTML = Number(elem.children[3].children[0].children[0].innerHTML) - 2;
+                if(elem.querySelector('#attack').querySelector('#value').innerHTML > 2){
+                    elem.querySelector('#attack').querySelector('#value').innerHTML = Number(elem.querySelector('#attack').querySelector('#value').innerHTML) - 2;
                 }
                 else{
-                    elem.children[3].children[0].children[0].innerHTML = 1;
+                    elem.querySelector('#attack').querySelector('#value').innerHTML = 1;
                 }
                 addAnimation5(elem, 0);
                 setTimeout(()=>{
@@ -1130,30 +998,18 @@ function addOpponentCardOnBoard(index){
     //3!!!Отримали інфу з сервака, а саме індекс поставленого героя
     counterOnBoardCardsOpponent++;
     let opponentCardsOnBoard = document.querySelector('.cards-opponent-on-board');
-    opponentCardsOnBoard.innerHTML += ` 
-        <div id=${arrHeroes[index].id} >
-            <div class="cards" id='cardOpponentOnBoard${counterOnBoardCardsOpponent}'>
-                <div class="cards__image">
-                    <img src="assets/heroes/${index + 1}.png" alt="Hero" id="img-${arrHeroes[index].id}">
-                </div>
-                <div class="cards__unit-name">${arrHeroes[index].name}</div>
-                <div class="cards__unit-description">${arrHeroes[index].superpower}</div>
-                <div class="cards__unit-stats clearfix">
-                    <div class="one-third">
-                        <div class="stat">${arrHeroes[index].attack}</div>
-                        <div class="stat-value">Атака</div>
-                    </div>
-                    <div class="one-third">
-                        <div class="stat">${arrHeroes[index].defense}</div>
-                        <div class="stat-value">Захист</div>
-                    </div>
-                    <div class="one-third no-border">
-                        <div class="stat">${arrHeroes[index].price}</div>
-                        <div class="stat-value">Ціна</div>
-                    </div>
-                </div>
-            </div>
-        </div>`;
+    let html = ejs.render(template, {
+            id: arrHeroes[index].id.toString(),
+            counterCardsUser: `cardOpponentOnBoard${counterOnBoardCardsOpponent}`,
+            imgUrl: arrHeroes[index].imgUrl,
+            hp: arrHeroes[index].defense,
+            name: arrHeroes[index].name,
+            superpower: arrHeroes[index].superpower,
+            attack: arrHeroes[index].attack,
+            price: arrHeroes[index].price
+        });
+    opponentCardsOnBoard.innerHTML += html;
+    console.log(`counterOnBoardCardsOpponent = ${counterOnBoardCardsOpponent}`);
     sortCardsOnBoard('cardOpponentOnBoard', counterOnBoardCardsOpponent);
     let cardToDelete = document.getElementById('cardOpponent' + counterCardsOpponent);
     if(cardToDelete){
@@ -1173,6 +1029,7 @@ socket.on('cardOnBoardState', (index) => {
 
 function sortCardsOnBoard(playerId, counter){
     for(let i = 1; i < counter + 1; i++){
+        console.log(playerId + i);
         let divUserNumber = document.getElementById(playerId + i);
         divUserNumber.style.left = (17 + i * 8) + '%';
     }
@@ -1191,7 +1048,7 @@ function clickOnBoardCard(counter){
 function unclickOnBoardCard(counter){
     for(let i = 0; i < counter + 1; i++){
         let card = document.getElementById('card-user-on-board' + i);
-        if(card !== null && card !==undefined){
+        if(card !== null && card !== undefined){
             card.onclick = () =>{}
         }
     }
@@ -1200,7 +1057,7 @@ function unclickOnBoardCard(counter){
 function clickOnBoardCardModified(counter){
     for(let i = 1; i < counter + 1; i++){
         let card = document.getElementById('card-user-on-board' + i);
-        if(card !== null && card !==undefined){
+        if(card !== null && card !== undefined){
             if(card.onclick == '() =>{unclickOpponentCard()}'){
                 card.onclick == '() =>{unclickOpponentCard()}';
             }
@@ -1252,8 +1109,8 @@ function hitOpponent(indexOfCard, indexOfGoalCard = -1){
         addAnimationFightCard(indexOfCard, indexOfGoalCard);
         setTimeout( () => {
             let cardOpponent = document.getElementById('cardOpponentOnBoard' + indexOfGoalCard);
-            let difHPUser =  cardUser.children[3].children[1].children[0].innerHTML - cardOpponent.children[3].children[0].children[0].innerHTML;
-            let difHPOpponent = cardOpponent.children[3].children[1].children[0].innerHTML - cardUser.children[3].children[0].children[0].innerHTML;
+            let difHPUser =  cardUser.querySelector('#hp').querySelector('#value').innerHTML - cardOpponent.querySelector('#attack').querySelector('#value').innerHTML;
+            let difHPOpponent = cardOpponent.querySelector('#hp').querySelector('#value').innerHTML - cardUser.querySelector('#attack').querySelector('#value').innerHTML;
             let currentCard;
             if(difHPUser <= 0){
                 difHPUser = 0;
@@ -1300,15 +1157,15 @@ function hitOpponent(indexOfCard, indexOfGoalCard = -1){
                     removeAnimation5(cardOpponent, 1);
                 }, 1000)
             }
-            cardUser.children[3].children[1].children[0].innerHTML = difHPUser;
-            cardOpponent.children[3].children[1].children[0].innerHTML = difHPOpponent;
+            cardUser.querySelector('#hp').querySelector('#value').innerHTML = difHPUser;
+            cardOpponent.querySelector('#hp').querySelector('#value').innerHTML = difHPOpponent;
         }, 550);     
     }
     else{
         addAnimationFightMainCard(indexOfCard);
         setTimeout( () => {
             let cardOpponent = document.getElementById('opponent');
-            let difHP = cardOpponent.children[2].children[0].innerHTML - cardUser.children[3].children[0].children[0].innerHTML;
+            let difHP = cardOpponent.children[2].children[0].innerHTML - cardUser.querySelector('#attack').querySelector('#value').innerHTML;
             cardOpponent.children[2].children[0].innerHTML = difHP;
             unclickOnBoardOneCard(indexOfCard);
             addOpacity(indexOfCard);
@@ -1345,8 +1202,8 @@ function hitByOpponent(indexOfCard, indexOfCardOpponent){
         addAnimationFightCardOpponent(indexOfCard, indexOfCardOpponent);
         setTimeout( () => {
             let cardUser = document.getElementById('card-user-on-board' + indexOfCard);
-            let difHPUser =  cardUser.children[3].children[1].children[0].innerHTML - cardOpponent.children[3].children[0].children[0].innerHTML;
-            let difHPOpponent = cardOpponent.children[3].children[1].children[0].innerHTML - cardUser.children[3].children[0].children[0].innerHTML;
+            let difHPUser =  cardUser.querySelector('#hp').querySelector('#value').innerHTML - cardOpponent.querySelector('#attack').querySelector('#value').innerHTML;
+            let difHPOpponent = cardOpponent.querySelector('#hp').querySelector('#value').innerHTML - cardUser.querySelector('#attack').querySelector('#value').innerHTML;
             let currentCard;
             if(difHPUser <= 0){
                 difHPUser = 0;
@@ -1391,15 +1248,15 @@ function hitByOpponent(indexOfCard, indexOfCardOpponent){
                     removeAnimation5(cardOpponent, 1);
                 }, 1000)
             }
-            cardUser.children[3].children[1].children[0].innerHTML = difHPUser;
-            cardOpponent.children[3].children[1].children[0].innerHTML = difHPOpponent;  
+            cardUser.querySelector('#hp').querySelector('#value').innerHTML = difHPUser;
+            cardOpponent.querySelector('#hp').querySelector('#value').innerHTML = difHPOpponent;  
         }, 550);
     }
     else{
         addAnimationFightMainCardOpponent(indexOfCardOpponent);
         setTimeout( () => {
             let cardUser = document.getElementById('you');
-            let difHP = cardUser.children[2].children[0].innerHTML - cardOpponent.children[3].children[0].children[0].innerHTML;
+            let difHP = cardUser.children[2].children[0].innerHTML - cardOpponent.querySelector('#attack').querySelector('#value').innerHTML;
             cardUser.children[2].children[0].innerHTML = difHP;
             if(difHP <= 0){
                 window.location.href = '/you_lose';
@@ -1408,7 +1265,7 @@ function hitByOpponent(indexOfCard, indexOfCardOpponent){
             setTimeout(()=>{
                 removeAnimation5Main(cardUser);
             }, 1000)
-            console.log(cardUser.outerHTML);
+//            console.log(cardUser.outerHTML);
         }, 550);
     }
 }
@@ -1446,7 +1303,13 @@ function unclickOpponentCard(){
 
 
 function addAnimation1(){
-    document.getElementById('cardUser' + counterCardsUser).style.animation = '2s show ease';
+    let cardsUser = document.getElementsByClassName('cards_user')[0];
+    if (cardsUser) {
+        if (cardsUser.lastChild != null && cardsUser.lastChild != undefined && cardsUser.lastChild.style != undefined) {
+            cardsUser.lastChild.style.animation = '5s show ease';
+        }
+    }
+//    document.getElementsByClassName('cards_user')[0].lastChild.style.animation = '5s show ease';
     if(counterCardsUser >= 2){
         for(let i = 1; i < counterCardsUser; i++){
             document.getElementById('cardUser' + i).style.animation = 'null';
@@ -1562,7 +1425,7 @@ function reviewHover1() {
     
     for(let i = 1; i < counterCardsUser + 1; i++){
         let current = document.getElementById('cardUser' + i);
-        if(document.getElementById('money-user-value1').innerHTML >=  current.children[3].children[2].children[0].innerHTML){
+        if(document.getElementById('money-user-value1').innerHTML >=  current.querySelector('#price').querySelector('#value').innerHTML){
             //addHover1(i);
             current.innerHTML += `<style>
             #cardUser${i}:hover {
@@ -1638,18 +1501,39 @@ function addAnimation4(current){
     }
     else{
         current.style.animation = '1s fadeAwayOpponent ease';
-        console.log('Opponent');
+//        console.log('Opponent');
     }
 }
 
 
 function addAnimation5(card, characteristic) {
-    card.children[3].children[characteristic].children[0].style.animation = '1s changeColor ease';
+    switch (characteristic) {
+        case 0:
+            card.querySelector('#attack').querySelector('#value').style.animation = '1s changeColor ease';
+            break;
+        case 1:
+            card.querySelector('#hp').querySelector('#value').style.animation = '1s changeColor ease';
+            break;
+        case 2:
+            card.querySelector('#price').querySelector('#value').style.animation = '1s changeColor ease';
+    }
+//    card.children[3].children[characteristic].children[0].style.animation = '1s changeColor ease';
     
 }
 
 function removeAnimation5(card, characteristic) {
-    card.children[3].children[characteristic].children[0].style.animation = 'null';
+    switch (characteristic) {
+        case 1:
+            card.querySelector('#hp').querySelector('#value').style.animation = 'null';
+            break;
+        case 2:
+            card.querySelector('#attack').querySelector('#value').style.animation = 'null';
+            break;
+        case 3:
+            card.querySelector('#price').querySelector('#value').style.animation = 'null';
+            break;
+    }
+//    card.children[3].children[characteristic].children[0].style.animation = 'null';
 }
 
 function addAnimation5Main(card) {

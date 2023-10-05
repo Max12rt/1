@@ -1,0 +1,20 @@
+<!--<link rel="stylesheet" href="styles/card.css">-->
+<div class="card">
+    <div class="card-header" style="background-image: url(<%= card.imageUrl %>);">
+        <div class="card-hit-points">
+            <%= card.hp %>
+        </div>
+    </div>
+    
+    <h3>
+        <%= card.name %>
+    </h3>
+    
+    <div class="card-description">
+        <%= card.description %>
+    </div>
+    
+    <div class="card-damage">
+        <%= card.damage %>
+    </div>
+</div>

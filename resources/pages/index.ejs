@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<%- include('../templates/head.ejs', {title: 'Index.html'}) %>
+</head>
+
+<body>
+    <%- include('../templates/header.ejs') %>
+	<main>
+        <div class="playground" style="display: flex;">
+            <%- include('../templates/card.ejs', {card: {name: 'Blind dog', description: 'Blind Dogs have extremely keen senses of hearing and smell and can hunt, fight, and navigate through both pockets of radiation and fields of anomalies without much problem. fight, and navigate through both pockets of radiation and fields of anomalies without much problem.', imageUrl: 'images/dog_10.png', hp: 20, damage: 3}}) %>
+            <%- include('../templates/card.ejs', {card: {name: 'Blind dog', description: 'Blind Dogs have extremely keen senses of hearing and smell and can hunt.', imageUrl: 'images/stalker_01.png', hp: 99, damage: 15}}) %>
+        </div>
+    </main>
+    <%- include('../templates/footer.ejs') %>
+	<script type="text/javascript" src=""></script>
+</body>
+
+</html>

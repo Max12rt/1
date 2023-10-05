@@ -4,12 +4,13 @@ const em = require("email-validator");
 
 let sen = path.resolve(__dirname, '../');
 const registrationGet = (request, response) => {
-    response.sendFile(sen + '/views/registration.html');
+//    response.sendFile(sen + '/views/registration.html');
+    response.render('pages/registration.ejs');
 }
 
-const registrationGetStyle = (request, response) => {
-    response.sendFile(sen + '/public/style.css');
-}
+//const registrationGetStyle = (request, response) => {
+//    response.sendFile(sen + '/public/style.css');
+//}
 
 const registrationPost = (request, response) => {
     if (request.body.login == '' || request.body.pass == '' || request.body.fullName == '' || request.body.email == '')
@@ -21,8 +22,9 @@ const registrationPost = (request, response) => {
         user.saveToDb(response);
     }
 }
+
 module.exports = {
     registrationGet,
     registrationPost,
-    registrationGetStyle
+//    registrationGetStyle
 };

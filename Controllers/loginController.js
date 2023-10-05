@@ -8,23 +8,14 @@ let new_session;
 const mainGet = (request, response) => {
     new_session = request.session;
     if (new_session.content == true)
-        response.sendFile(sen + '/views/lobby.html');
+        response.render('pages/lobby');
     else
         response.redirect('/login');
 }
 
 const loginGet = (request, response) => {
-    response.sendFile(sen + '/views/login.html');
+    response.render('pages/login');
 }
-
-const lobbyGetStyle = (request, response) => {
-    response.sendFile(sen + '/public/lobby.css');
-}
-
-const loginGetStyle = (request, response) => {
-    response.sendFile(sen + '/public/style.css');
-}
-
 const loginPost = (request, response) => {
     new_session = request.session;
 
@@ -79,10 +70,8 @@ const logoutPost = (request, response) => {
 module.exports = {
     loginGet,
     loginPost,
-    loginGetStyle,
     mainGet,
     mainPost,
     checkPost,
     logoutPost,
-    lobbyGetStyle,
 };

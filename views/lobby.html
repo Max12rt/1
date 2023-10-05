@@ -16,8 +16,10 @@
             <nav>
                 <ul>
                     <li>
-                            <li><a href="/">lobby</a></li>
+                            <li><a href="/">Лоббі</a></li>
+                            <li><a href="/store">Картки</a></li>
                             <li><a href="/profile">Профiль</a></li>
+                            <li><a href="/rules">Правила</a></li>
                             <li><a id="logout">Вийти</a></li>
                     </li>
                 </ul>
@@ -99,9 +101,7 @@
                 </div>
             </div>
             <div class="cards-opponent-on-board"></div>
-        </div> 
-        <br>  
-        <a href="/">Left match</a><br> 
+        </div>   
         <div class="main-cards" id="you">
             <div class="main-cards__image"></div>
             <div id="youName" class="main-cards__unit-name">Ви(Ім'я з бд)</div>
@@ -113,7 +113,9 @@
         <button disabled="true" id="red-button" name="Хід суперника" onclick="changeCourse()">Хід суперника</button>
         <div class="cards_opponent"></div>
         <div class="cards_user"></div>
+        <div class="cards-user-on-board"></div>
         <div class="cards-opponent"></div>
+        
     </div>
     <script src="client.js"></script>
 </body>

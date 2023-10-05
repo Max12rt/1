@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<%- include('../templates/head.ejs', {title: 'Lobby'}) %>
+    <link rel="stylesheet" href="styles/lobby.css">
+    <link rel="stylesheet" href="styles/card.css">
+</head>
+
+<body>
+    <%#- include('../templates/header.ejs', {title: 'Lobby'}) %>
+    <%- include('../templates/nav.ejs', {current: '/', imgUrl: 'images/av.jpeg'}) %>
+	<main>
+        
+        <div id="container1" style="display: block">
+        <script src="/socket.io/socket.io.js"></script>
+        <p id="log"></p>
+        <input type="submit" id="gradient-button" value="Пошук суперника">
+        <div id="load" style="display: none">
+            <p id="waitingText">Очікується підключення...</p>
+            <div class="container">
+                <div class="gear" id="gear1"></div>
+            </div>
+        </div>
+            <script>
+            async function send() {
+                let response = await fetch('/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                });
+
+                let result = await response.json();
+
+
+                if (result.ans == "YESlogin")
+                    window.location.href = '/login';
+                else {
+                    document.getElementById('log').innerHTML = `Привiт, <span id="user">${result.login}</span>`;
+                    console.log(result.ava);
+                    let ava = document.getElementById('avatar');
+                    ava.outerHTML = `<img src="images/ava.jpeg" alt="avatar" id="avatar">`;
+                }
+            }
+            send();
+        </script>
+    </div>
+        
+    <div id="container2" style="display: none">
+        
+        <div class="message" style="display: none;">Максимальна кількість карт вже задіяна!!!!</div>
+        <div class="message" style="display: none;">Максимальна кiлькiсть карток на полi!!!!!!</div>
+        <div class="money-user">
+            <div id="money-user-value1">1</div>
+            <div id="money-user-text">/</div>
+            <div id="money-user-value2">1</div>
+            <img src="images/coin.png" alt="money" id="money-user-img">    
+
+        </div>
+        <div class="money-opponent">
+            <div id="money-opponent-value">1</div>
+            <img src="images/coin.png" alt="money" id="money-opponent-img">    
+        </div>
+        <div class="cards-opponent-clickable">
+            <div class="main-cards" id="opponent">
+                <div class="main-cards__image"></div>
+                <div id="oppName" class="main-cards__unit-name">Оппонент(Ім'я з бд)</div>
+                <div class="main-cards__unit-stats clearfix">
+                    <div class="main-stat">40</div>
+                    <div class="main-stat-value">Здоров'я</div>
+                </div>
+            </div>
+            <div class="cards-opponent-on-board"></div>
+        </div>   
+        <div class="main-cards" id="you">
+            <div class="main-cards__image"></div>
+            <div id="youName" class="main-cards__unit-name">Ви(Ім'я з бд)</div>
+            <div class="main-cards__unit-stats clearfix">
+                <div class="main-stat">40</div>
+                <div class="main-stat-value">Здоров'я</div>
+            </div>
+        </div>
+        <button disabled="true" id="red-button" name="Хід суперника" onclick="changeCourse()">Хід суперника</button>
+        <div class="cards_opponent"></div>
+        <div class="cards_user"></div>
+        <div class="cards-user-on-board"><!--Поки не треба але може пригодиться--></div>
+        <div class="cards-opponent"></div>
+        
+    </div>
+        
+    </main>
+    <%#- include('../templates/footer.ejs') %>
+    <script src="ejs.min.js"></script>
+	<script src="client.js"></script>
+</body>
+
+</html>
